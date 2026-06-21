@@ -117,11 +117,19 @@ async function loadStats(){
     document.getElementById('s-tr').textContent=s.closed||0;
     document.getElementById('s-open').textContent=s.open||0;
     if(s.by_coin){
-      document.getElementById('coins').innerHTML=['SOL','BTC','ETH'].map(c=>{
-        const d=s.by_coin[c]||{pnl:0,accuracy:0,total:0};const pos=d.pnl>=0;
-        return `<div class="coin"><div class="cn">${c}<span style="font-size:12px;color:var(--muted)">${d.total} угод</span></div>
-          <div class="cp" style="color:${pos?'var(--up)':'var(--down)'}">${pos?'+':''}$${fmt(d.pnl)}</div>
-          <div class="cm">вінрейт ${d.accuracy}%</div></div>`;}).join('');
+      const coins=Object.keys(s.by_coin);
+      const leg=dir=>{return d=>{const x=(d&&d[dir])||{};const lbl=dir==='long'?'Л':'Ш';
+        if(!x.total)return `${lbl}: —`;const p=(x.pnl||0)>=0;
+        return `${lbl} ${x.total}: <b style="color:${p?'var(--up)':'var(--down)'}">${p?'+':''}$${fmt(x.pnl)}</b> · ${x.accuracy}%`;};};
+      const L=leg('long'),S=leg('short');
+      document.getElementById('coins').innerHTML=coins.map(c=>{
+        const d=s.by_coin[c]||{pnl:0,accuracy:0,total:0};const pos=(d.pnl||0)>=0;
+        const pf=d.pf!=null?`PF ${d.pf}`:'PF —';
+        const avg=(d.avg||0)>=0?'+':'';
+        return `<div class="coin"><div class="cn">${c}<span style="font-size:12px;color:var(--muted)">${d.total||0} угод</span></div>
+          <div class="cp" style="color:${pos?'var(--up)':'var(--down)'}">${pos?'+':''}$${fmt(d.pnl||0)}</div>
+          <div class="cm">вінрейт ${d.accuracy||0}% · ${pf} · сер ${avg}$${fmt(d.avg||0)}</div>
+          <div class="cm" style="margin-top:5px;font-size:12px">${L(d)} &nbsp;·&nbsp; ${S(d)}</div></div>`;}).join('');
     }
   }catch(e){}
 }
