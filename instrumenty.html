@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0D10'/><text x='32' y='48' font-size='46' text-anchor='middle' fill='%23C9A227' font-family='Georgia,serif'>§</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Verdict">
+<meta property="og:title" content="Verdict — Інструменти">
+<meta property="og:description" content="Крипто-аналіз, AI-зведення новин і прозорий торговий бот. Рішення на доказах, не на емоціях.">
+<meta property="og:image" content="https://verdict.netlify.app/og.png">
+<meta property="og:url" content="https://verdict.netlify.app/instrumenty.html">
+<meta name="twitter:card" content="summary_large_image">
+<title>Verdict — Інструменти</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0D10;--surface:#141A21;--surface2:#1A222B;--line:rgba(201,162,84,0.14);--line2:rgba(255,255,255,0.06);
+--gold:#C9A227;--gold2:#E4C76B;--bronze:#9A7B3A;--text:#ECE8DF;--muted:#9A9B94;--dim:#65665F;--up:#3FB37F;--down:#E0564E;
+--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;
+background-image:radial-gradient(800px 400px at 85% -10%,rgba(201,162,84,0.07),transparent 60%);}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(11,13,16,.72);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.5px}
+.logo .mark{width:28px;height:28px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:15px}
+.navlinks{display:flex;gap:26px;font-size:14px;color:var(--muted)} .navlinks a:hover{color:var(--text)} .navlinks a.on{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:500;border:1px solid var(--gold);color:var(--gold2);cursor:pointer;transition:all .2s}
+.btn:hover{background:var(--gold);color:#15110a}
+.head{padding:38px 0 4px}
+.eyebrow{font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--bronze);margin-bottom:10px;font-weight:600}
+.h1{font-family:var(--serif);font-size:38px;font-weight:600}
+.tabs{display:flex;gap:8px;padding:24px 0}
+.tab{padding:10px 20px;border-radius:11px;border:1px solid var(--line2);background:var(--surface);font-size:14.5px;cursor:pointer;transition:all .2s;color:var(--muted)}
+.tab:hover{border-color:var(--line)} .tab.on{border-color:var(--gold);background:rgba(201,162,84,.08);color:var(--gold2)}
+.panel{display:none} .panel.on{display:block;animation:fade .4s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.card{background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.field{margin-bottom:14px}
+input,textarea,select{width:100%;background:var(--surface2);border:1px solid var(--line2);border-radius:10px;color:var(--text);
+padding:11px 13px;font-family:var(--mono);font-size:14px;outline:none;transition:border-color .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+select{cursor:pointer}
+.dirtoggle{display:flex;gap:8px}
+.dirtoggle button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line2);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:14px;font-weight:500}
+.dirtoggle button.on.long{border-color:var(--up);color:var(--up);background:rgba(63,179,127,.1)}
+.dirtoggle button.on.short{border-color:var(--down);color:var(--down);background:rgba(224,86,78,.1)}
+.outs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.out{background:var(--surface2);border-radius:12px;padding:16px;text-align:center}
+.out .ol{font-size:12px;color:var(--muted)} .out .ov{font-family:var(--mono);font-size:22px;font-weight:600;margin-top:5px}
+.note-list{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.note{background:var(--surface2);border:1px solid var(--line2);border-radius:11px;padding:13px 15px;display:flex;justify-content:space-between;gap:12px}
+.note p{font-size:14px;white-space:pre-wrap} .note small{color:var(--dim);font-size:11px;font-family:var(--mono);display:block;margin-top:5px}
+.note .del{color:var(--down);cursor:pointer;font-size:18px;opacity:.6} .note .del:hover{opacity:1}
+.pat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.pat{background:var(--surface);border:1px solid var(--line2);border-radius:14px;padding:18px;transition:border-color .2s}
+.pat:hover{border-color:var(--line)}
+.pat .pt{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.pt.bull{background:rgba(63,179,127,.14);color:var(--up)} .pt.bear{background:rgba(224,86,78,.14);color:var(--down)} .pt.neut{background:rgba(154,155,148,.14);color:var(--muted)}
+.pat h4{font-size:16px;font-weight:600;margin-bottom:6px} .pat p{font-size:13.5px;color:var(--muted)}
+.disc{color:var(--dim);font-size:12px;text-align:center;margin:30px 0 50px}
+@media(max-width:760px){.navlinks{display:none}.grid2{grid-template-columns:1fr}.h1{font-size:28px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav">
+  <div class="logo"><span class="mark">§</span>Verdict</div>
+  <div class="navlinks"><a href="index.html">Головна</a><a href="analiz.html">Аналіз</a><a href="#" class="on">Інструменти</a><a href="novyny.html">Новини</a><a href="bot.html">Бот</a></div>
+  <a class="btn" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="head"><div class="eyebrow">Робочий стіл</div><div class="h1">Інструменти трейдера</div></div>
+  <div class="tabs">
+    <div class="tab on" data-p="calc">Калькулятор</div>
+    <div class="tab" data-p="notes">Нотатки</div>
+    <div class="tab" data-p="pat">Патерни</div>
+  </div>
+
+  <div class="panel on" id="p-calc">
+    <div class="grid2">
+      <div class="card">
+        <div class="field"><label>Напрям</label><div class="dirtoggle" id="dir">
+          <button class="on long" data-d="long">Лонг</button><button data-d="short">Шорт</button></div></div>
+        <div class="field"><label>Ціна входу ($)</label><input id="c-entry" type="number" value="75.00"></div>
+        <div class="field"><label>Stop-loss ($)</label><input id="c-sl" type="number" value="73.50"></div>
+        <div class="field"><label>Take-profit ($)</label><input id="c-tp" type="number" value="78.00"></div>
+        <div class="grid2"><div class="field"><label>Маржа ($)</label><input id="c-margin" type="number" value="150"></div>
+          <div class="field" style="margin-bottom:0"><label>Плече (x)</label><input id="c-lev" type="number" value="20"></div></div>
+      </div>
+      <div class="card">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Результат угоди (з комісією 0.04% × 2)</div>
+        <div class="outs">
+          <div class="out"><div class="ol">Прибуток на TP</div><div class="ov" id="o-pnl" style="color:var(--up)">—</div></div>
+          <div class="out"><div class="ol">Збиток на SL</div><div class="ov" id="o-loss" style="color:var(--down)">—</div></div>
+          <div class="out"><div class="ol">Ризик / Прибуток</div><div class="ov" id="o-rr">—</div></div>
+          <div class="out"><div class="ol">Обсяг позиції</div><div class="ov" id="o-size">—</div></div>
+          <div class="out"><div class="ol">Ціна ліквідації ~</div><div class="ov" id="o-liq" style="color:var(--down)">—</div></div>
+          <div class="out"><div class="ol">Рух до TP</div><div class="ov" id="o-move">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-notes">
+    <div class="card">
+      <label>Нова нотатка</label>
+      <textarea id="n-text" rows="3" placeholder="Думки по ринку, рівні, ідеї…"></textarea>
+      <button class="btn" style="margin-top:12px" onclick="addNote()">Зберегти нотатку</button>
+      <div class="note-list" id="n-list"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-pat">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+        <div><div style="font-size:17px;font-weight:600">Погодинна сезонність</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">О якій порі доби актив історично частіше росте чи падає (час київський)</div></div>
+        <div style="display:flex;gap:8px">
+          <select id="h-coin" style="width:auto"><option value="SOLUSDT">SOL</option><option value="BTCUSDT">BTC</option><option value="ETHUSDT">ETH</option></select>
+          <select id="h-days" style="width:auto"><option value="14">14 днів</option><option value="7">7 днів</option><option value="30">30 днів</option></select>
+        </div>
+      </div>
+      <div id="h-now" style="display:none;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:14.5px"></div>
+      <div id="h-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px"></div>
+      <div id="h-load" style="text-align:center;color:var(--muted);padding:46px">Завантажуємо патерни…</div>
+      <div id="h-hours" style="display:none"></div>
+    </div>
+  </div>
+  <p class="disc">Інструменти зберігаються локально у твоєму браузері. Не фінансова порада.</p>
+</div>
+
+<script>
+// tabs
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+t.dataset.p).classList.add('on');
+});
+// calculator
+let DIR='long';
+document.getElementById('dir').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  DIR=b.dataset.d;document.querySelectorAll('#dir button').forEach(x=>x.className=x.dataset.d);b.classList.add('on',DIR);calc();});
+function num(id){return parseFloat(document.getElementById(id).value)||0;}
+function calc(){
+  const e=num('c-entry'),sl=num('c-sl'),tp=num('c-tp'),m=num('c-margin'),lev=num('c-lev');
+  if(!e||!m||!lev)return;
+  const qty=m*lev/e, comm=m*lev*0.0004*2;
+  const profit=(DIR==='long'?(tp-e):(e-tp))*qty-comm;
+  const loss=(DIR==='long'?(e-sl):(sl-e))*qty+comm;
+  const rr=loss>0?(profit/loss):0;
+  const liq=DIR==='long'?e*(1-1/lev):e*(1+1/lev);
+  const move=Math.abs((tp-e)/e*100);
+  document.getElementById('o-pnl').textContent=(profit>=0?'+':'')+'$'+profit.toFixed(2);
+  document.getElementById('o-loss').textContent='-$'+Math.abs(loss).toFixed(2);
+  document.getElementById('o-rr').textContent='1 : '+rr.toFixed(2);
+  document.getElementById('o-size').textContent='$'+(m*lev).toFixed(0);
+  document.getElementById('o-liq').textContent='$'+liq.toFixed(2);
+  document.getElementById('o-move').textContent=move.toFixed(2)+'%';
+}
+['c-entry','c-sl','c-tp','c-margin','c-lev'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+calc();
+// notes
+function getNotes(){try{return JSON.parse(localStorage.getItem('verdict_notes')||'[]')}catch(e){return[]}}
+function saveNotes(n){localStorage.setItem('verdict_notes',JSON.stringify(n))}
+function addNote(){const t=document.getElementById('n-text').value.trim();if(!t)return;
+  const n=getNotes();n.unshift({t,d:new Date().toLocaleString('uk-UA')});saveNotes(n);document.getElementById('n-text').value='';renderNotes();}
+function delNote(i){const n=getNotes();n.splice(i,1);saveNotes(n);renderNotes();}
+function renderNotes(){const n=getNotes();const el=document.getElementById('n-list');
+  if(!n.length){el.innerHTML='<div style="color:var(--dim);font-size:13px;padding:10px">Нотаток поки немає.</div>';return;}
+  el.innerHTML=n.map((x,i)=>`<div class="note"><div><p>${x.t.replace(/</g,'&lt;')}</p><small>${x.d}</small></div><span class="del" onclick="delNote(${i})">×</span></div>`).join('');}
+renderNotes();
+// patterns — погодинний хітмап сезонності
+async function loadHeatmap(){
+  const sym=document.getElementById('h-coin').value, days=parseInt(document.getElementById('h-days').value);
+  document.getElementById('h-load').style.display='block';
+  document.getElementById('h-hours').style.display='none';
+  try{
+    const limit=Math.min(days*96+10,1000);
+    const candles=await(await fetch(`https://api.binance.com/api/v3/klines?symbol=${sym}&interval=15m&limit=${limit}`)).json();
+    const byH={}; for(let h=0;h<24;h++)byH[h]={s:0,up:0,n:0};
+    let all=[];
+    candles.forEach(c=>{
+      const h=new Date(parseInt(c[0])+3*3600*1000).getUTCHours();
+      const open=parseFloat(c[1]),close=parseFloat(c[4]),ch=(close-open)/open*100;
+      byH[h].s+=ch; byH[h].n++; if(ch>0)byH[h].up++; all.push(ch);
+    });
+    const bull=Math.round(all.filter(c=>c>0).length/all.length*100);
+    const avgAll=all.reduce((a,b)=>a+b,0)/all.length;
+    const st=(l,v,c='')=>`<div style="background:var(--surface2);border-radius:11px;padding:14px;text-align:center"><div style="font-size:12px;color:var(--muted)">${l}</div><div style="font-family:var(--mono);font-size:20px;font-weight:600;margin-top:4px;${c}">${v}</div></div>`;
+    document.getElementById('h-stats').innerHTML=st('Свічок 15хв',all.length)+st('Бичачих',bull+'%','color:var(--up)')+st('Ведмежих',(100-bull)+'%','color:var(--down)')+st('Сер. зміна',(avgAll>=0?'+':'')+avgAll.toFixed(3)+'%',avgAll>=0?'color:var(--up)':'color:var(--down)');
+    const rows=[]; let maxAbs=0.001;
+    for(let h=0;h<24;h++){const o=byH[h]; if(!o.n)continue; const avg=o.s/o.n; maxAbs=Math.max(maxAbs,Math.abs(avg)); rows.push({h,avg,bull:Math.round(o.up/o.n*100)});}
+    const nowH=new Date(Date.now()+3*3600*1000).getUTCHours();
+    const head=`<div style="display:grid;grid-template-columns:64px 1fr 78px 60px;gap:14px;padding:0 10px 10px;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px"><div>Година</div><div style="text-align:center">← падіння · зростання →</div><div style="text-align:right">сер.</div><div style="text-align:right">↑ днів</div></div>`;
+    const body=rows.map(r=>{
+      const up=r.avg>=0, w=Math.min(Math.abs(r.avg)/maxAbs*47,47), cur=r.h===nowH;
+      const bar=up?`<div style="position:absolute;left:50%;top:5px;height:16px;width:${w}%;background:rgba(63,179,127,.55);border-radius:0 5px 5px 0"></div>`
+                  :`<div style="position:absolute;right:50%;top:5px;height:16px;width:${w}%;background:rgba(224,86,78,.55);border-radius:5px 0 0 5px"></div>`;
+      return `<div style="display:grid;grid-template-columns:64px 1fr 78px 60px;align-items:center;gap:14px;padding:5px 10px;border-radius:10px;${cur?'background:rgba(201,162,84,.08);border:1px solid var(--line)':'border:1px solid transparent'}">
+        <div style="font-family:var(--mono);font-size:13px;color:${cur?'var(--gold2)':'var(--muted)'}">${String(r.h).padStart(2,'0')}:00</div>
+        <div style="position:relative;height:26px;background:var(--surface2);border-radius:7px"><div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(255,255,255,.12)"></div>${bar}</div>
+        <div style="font-family:var(--mono);font-size:13px;text-align:right;color:${up?'var(--up)':'var(--down)'}">${(r.avg>=0?'+':'')+r.avg.toFixed(3)}%</div>
+        <div style="font-size:12.5px;text-align:right;color:var(--muted)">${r.bull}%</div></div>`;
+    }).join('');
+    document.getElementById('h-hours').innerHTML=head+body;
+    const nowEl=document.getElementById('h-now');
+    if(byH[nowH].n){const a=byH[nowH].s/byH[nowH].n,up=a>0;
+      nowEl.style.display='block';
+      nowEl.innerHTML=`<b style="color:var(--gold2)">Зараз ${String(nowH).padStart(2,'0')}:00 —</b> о цій порі ${sym.replace('USDT','')} історично ${up?'<span style="color:var(--up)">частіше росте</span>':'<span style="color:var(--down)">частіше падає</span>'} (сер. ${(a>=0?'+':'')+a.toFixed(3)}% за ${days} дн).`;
+    }else nowEl.style.display='none';
+    document.getElementById('h-load').style.display='none';
+    document.getElementById('h-hours').style.display='block';
+  }catch(e){document.getElementById('h-load').textContent='Помилка завантаження: '+e;}
+}
+document.getElementById('h-coin').onchange=loadHeatmap;
+document.getElementById('h-days').onchange=loadHeatmap;
+let heatLoaded=false;
+document.querySelectorAll('.tab').forEach(t=>{const o=t.onclick;t.onclick=function(){o();if(t.dataset.p==='pat'&&!heatLoaded){heatLoaded=true;loadHeatmap();}};});
+</script>
+</body>
+</html>

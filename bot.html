@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0D10'/><text x='32' y='48' font-size='46' text-anchor='middle' fill='%23C9A227' font-family='Georgia,serif'>§</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Verdict">
+<meta property="og:title" content="Verdict — Бот">
+<meta property="og:description" content="Крипто-аналіз, AI-зведення новин і прозорий торговий бот. Рішення на доказах, не на емоціях.">
+<meta property="og:image" content="https://verdict.netlify.app/og.png">
+<meta property="og:url" content="https://verdict.netlify.app/bot.html">
+<meta name="twitter:card" content="summary_large_image">
+<title>Verdict — Бот (Криптан)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0D10;--surface:#141A21;--surface2:#1A222B;--line:rgba(201,162,84,0.14);--line2:rgba(255,255,255,0.06);
+--gold:#C9A227;--gold2:#E4C76B;--bronze:#9A7B3A;--text:#ECE8DF;--muted:#9A9B94;--dim:#65665F;--up:#3FB37F;--down:#E0564E;
+--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;
+background-image:radial-gradient(800px 400px at 85% -10%,rgba(201,162,84,0.07),transparent 60%);}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(11,13,16,.72);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.5px}
+.logo .mark{width:28px;height:28px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:15px}
+.navlinks{display:flex;gap:26px;font-size:14px;color:var(--muted)} .navlinks a:hover{color:var(--text)} .navlinks a.on{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:500;border:1px solid var(--gold);color:var(--gold2);cursor:pointer;transition:all .2s}
+.btn:hover{background:var(--gold);color:#15110a}
+.head{padding:36px 0 6px}
+.eyebrow{font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--bronze);margin-bottom:10px;font-weight:600}
+.h1{font-family:var(--serif);font-size:38px;font-weight:600}
+.sub{color:var(--muted);font-size:16px;margin-top:6px;max-width:620px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--up);margin-top:10px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up);animation:pulse 1.6s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+.stat{background:var(--surface2);border-radius:13px;padding:18px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:28px;font-weight:700} .stat .v.pos{color:var(--up)} .stat .v.neg{color:var(--down)}
+.stat .l{color:var(--muted);font-size:13px;margin-top:5px}
+.card{background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:22px;margin-bottom:18px}
+.card h3{font-size:16px;font-weight:600;margin-bottom:4px} .card .cs{font-size:13px;color:var(--muted);margin-bottom:16px}
+.coins{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.coin{background:var(--surface2);border-radius:12px;padding:16px}
+.coin .cn{font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.coin .cp{font-family:var(--mono);font-size:18px;font-weight:600;margin-top:8px}
+.coin .cm{font-size:12px;color:var(--muted);margin-top:3px}
+.trade{border:1px solid var(--line2);border-radius:13px;padding:15px 17px;margin-bottom:12px;transition:border-color .2s}
+.trade:hover{border-color:var(--line)}
+.trade .tr1{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dirb{font-size:12px;font-weight:600;padding:4px 11px;border-radius:7px}
+.dirb.long{color:var(--up);background:rgba(63,179,127,.12)} .dirb.short{color:var(--down);background:rgba(224,86,78,.12)}
+.tcoin{font-weight:600;font-size:15px} .tprice{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.tpnl{font-family:var(--mono);font-size:16px;font-weight:600;margin-left:auto} .tpnl.pos{color:var(--up)} .tpnl.neg{color:var(--down)}
+.ttime{font-size:12px;color:var(--dim);font-family:var(--mono)}
+.reasons{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.rtag{font-size:11.5px;color:var(--muted);background:var(--surface2);border:1px solid var(--line2);border-radius:7px;padding:4px 9px}
+.rtag.ai{color:var(--gold2);border-color:var(--line)}
+.load{text-align:center;color:var(--muted);padding:40px}
+.disc{color:var(--dim);font-size:12px;text-align:center;margin:24px 0 50px}
+@media(max-width:760px){.navlinks{display:none}.stats{grid-template-columns:repeat(2,1fr)}.coins{grid-template-columns:1fr}.h1{font-size:28px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav">
+  <div class="logo"><span class="mark">§</span>Verdict</div>
+  <div class="navlinks"><a href="index.html">Головна</a><a href="analiz.html">Аналіз</a><a href="instrumenty.html">Інструменти</a><a href="novyny.html">Новини</a><a href="#" class="on">Бот</a></div>
+  <a class="btn" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Архів справ</div>
+    <div class="h1">Криптан торгує відкрито</div>
+    <div class="sub">Кожна угода бота — з причинами, чому її відкрито й закрито. Жодних скрінів «успіху»: лише реальна статистика з бази. Симуляція.</div>
+    <div class="live"><span class="dot"></span>дані оновлюються з бази бота</div>
+  </div>
+
+  <div class="stats" id="stats">
+    <div class="stat"><div class="v" id="s-pnl">—</div><div class="l">Загальний PnL</div></div>
+    <div class="stat"><div class="v" id="s-wr">—</div><div class="l">Вінрейт</div></div>
+    <div class="stat"><div class="v" id="s-tr">—</div><div class="l">Закритих угод</div></div>
+    <div class="stat"><div class="v" id="s-open">—</div><div class="l">Відкритих зараз</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Крива капіталу</h3><div class="cs">Накопичений PnL за всю історію угод</div>
+    <div style="height:280px"><canvas id="eq"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h3>По монетах</h3><div class="cs">Де бот заробляє, а де ні</div>
+    <div class="coins" id="coins"><div class="load">…</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Журнал угод</h3><div class="cs">Останні рішення Криптана з доказами</div>
+    <div id="journal"><div class="load">Завантажуємо архів…</div></div>
+  </div>
+  <p class="disc">Дані з симуляції торгівлі. Не фінансова порада.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const API='https://successful-heart-production-c5b4.up.railway.app';
+function fmt(n){n=parseFloat(n);return Math.abs(n)>1000?Math.round(n).toLocaleString('en-US'):n.toFixed(2);}
+function ago(iso){if(!iso)return'';const d=Math.floor((Date.now()-new Date(iso+'Z').getTime())/60000);if(d<60)return d+'хв тому';if(d<1440)return Math.floor(d/60)+'г тому';return Math.floor(d/1440)+'дн тому';}
+
+async function loadStats(){
+  try{const s=await(await fetch(API+'/stats')).json();
+    const p=s.total_pnl||0;const el=document.getElementById('s-pnl');
+    el.textContent=(p>=0?'+':'')+'$'+fmt(p);el.className='v '+(p>=0?'pos':'neg');
+    document.getElementById('s-wr').textContent=(s.accuracy||0)+'%';
+    document.getElementById('s-tr').textContent=s.closed||0;
+    document.getElementById('s-open').textContent=s.open||0;
+    if(s.by_coin){
+      document.getElementById('coins').innerHTML=['SOL','BTC','ETH'].map(c=>{
+        const d=s.by_coin[c]||{pnl:0,accuracy:0,total:0};const pos=d.pnl>=0;
+        return `<div class="coin"><div class="cn">${c}<span style="font-size:12px;color:var(--muted)">${d.total} угод</span></div>
+          <div class="cp" style="color:${pos?'var(--up)':'var(--down)'}">${pos?'+':''}$${fmt(d.pnl)}</div>
+          <div class="cm">вінрейт ${d.accuracy}%</div></div>`;}).join('');
+    }
+  }catch(e){}
+}
+async function loadEquity(){
+  try{
+    const t=await(await fetch(API+'/trades_lite?limit=1000')).json();
+    const closed=t.filter(x=>x.pnl!==null&&x.closed_at).sort((a,b)=>new Date(a.closed_at)-new Date(b.closed_at));
+    let cum=0;const pts=closed.map(x=>{cum+=parseFloat(x.pnl);return cum;});
+    const labels=closed.map((x,i)=>i+1);
+    new Chart(document.getElementById('eq'),{type:'line',
+      data:{labels,datasets:[{data:pts,borderColor:'#C9A227',borderWidth:2,fill:true,
+        backgroundColor:'rgba(201,162,84,0.08)',tension:.25,pointRadius:0,pointHoverRadius:4}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+        tooltip:{callbacks:{title:i=>'Угода #'+i[0].label,label:i=>'PnL: $'+i.raw.toFixed(2)}}},
+        scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#65665F',maxTicksLimit:8}},
+                y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#9A9B94',callback:v=>'$'+v}}}}});
+  }catch(e){}
+}
+function parseReasons(r){if(!r)return[];try{const a=JSON.parse(r);return Array.isArray(a)?a:[String(a)];}catch(e){return String(r).split(/[;,]/).map(s=>s.trim()).filter(Boolean);}}
+async function loadJournal(){
+  try{
+    const t=await(await fetch(API+'/trades?limit=25')).json();
+    const rows=t.filter(x=>x.status==='win'||x.status==='loss');
+    document.getElementById('journal').innerHTML=rows.map(x=>{
+      const long=x.direction==='ЛОНГ';const pnl=parseFloat(x.pnl||0);const pos=pnl>=0;
+      const reasons=parseReasons(x.reasons).slice(0,6);
+      const tags=reasons.map(r=>{const ai=/claude|ai|🤖/i.test(r);return `<span class="rtag ${ai?'ai':''}">${ai?'🤖 ':''}${r.replace(/^🤖\s*/,'').slice(0,60)}</span>`;}).join('');
+      return `<div class="trade"><div class="tr1">
+        <span class="dirb ${long?'long':'short'}">${x.direction}</span>
+        <span class="tcoin">${x.coin}</span>
+        <span class="tprice">$${fmt(x.entry_price)} → $${fmt(x.close_price)}</span>
+        <span class="ttime">${ago(x.closed_at)}</span>
+        <span class="tpnl ${pos?'pos':'neg'}">${pos?'+':''}$${pnl.toFixed(2)}</span></div>
+        ${tags?`<div class="reasons">${tags}</div>`:''}</div>`;
+    }).join('')||'<div class="load">Поки немає закритих угод.</div>';
+  }catch(e){document.getElementById('journal').innerHTML='<div class="load">Не вдалося завантажити журнал.</div>';}
+}
+loadStats();loadEquity();loadJournal();
+setInterval(loadStats,30000);setInterval(loadJournal,30000);
+</script>
+</body>
+</html>

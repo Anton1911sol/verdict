@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0D10'/><text x='32' y='48' font-size='46' text-anchor='middle' fill='%23C9A227' font-family='Georgia,serif'>§</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Verdict">
+<meta property="og:title" content="Verdict — Новини">
+<meta property="og:description" content="Крипто-аналіз, AI-зведення новин і прозорий торговий бот. Рішення на доказах, не на емоціях.">
+<meta property="og:image" content="https://verdict.netlify.app/og.png">
+<meta property="og:url" content="https://verdict.netlify.app/novyny.html">
+<meta name="twitter:card" content="summary_large_image">
+<title>Verdict — Новини</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0D10;--surface:#141A21;--surface2:#1A222B;--line:rgba(201,162,84,0.14);--line2:rgba(255,255,255,0.06);
+--gold:#C9A227;--gold2:#E4C76B;--bronze:#9A7B3A;--text:#ECE8DF;--muted:#9A9B94;--dim:#65665F;--up:#3FB37F;--down:#E0564E;
+--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;
+background-image:radial-gradient(800px 400px at 85% -10%,rgba(201,162,84,0.07),transparent 60%);}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(11,13,16,.72);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.5px}
+.logo .mark{width:28px;height:28px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:15px}
+.navlinks{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+.navlinks a:hover{color:var(--text)} .navlinks a.on{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:500;border:1px solid var(--gold);color:var(--gold2);transition:all .2s;cursor:pointer}
+.btn:hover{background:var(--gold);color:#15110a}
+.head{padding:38px 0 6px}
+.eyebrow{font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--bronze);margin-bottom:10px;font-weight:600}
+.h1{font-family:var(--serif);font-size:38px;font-weight:600}
+.sub{color:var(--muted);font-size:16px;margin-top:6px}
+.filters{display:flex;gap:9px;flex-wrap:wrap;padding:22px 0}
+.fchip{padding:8px 15px;border-radius:20px;border:1px solid var(--line2);background:var(--surface);font-size:13.5px;cursor:pointer;transition:all .2s;color:var(--muted)}
+.fchip:hover{border-color:var(--line)} .fchip.on{border-color:var(--gold);background:rgba(201,162,84,.08);color:var(--gold2)}
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;padding-bottom:60px}
+.ncard{background:var(--surface);border:1px solid var(--line2);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s;display:flex;flex-direction:column}
+.ncard:hover{transform:translateY(-4px);border-color:var(--line)}
+.ncard .img{height:160px;background:var(--surface2) center/cover no-repeat;position:relative}
+.sent{position:absolute;top:10px;left:10px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;backdrop-filter:blur(6px)}
+.sent.bull{background:rgba(63,179,127,.85);color:#06281c} .sent.bear{background:rgba(224,86,78,.85);color:#2c0b09}
+.sent.neut{background:rgba(0,0,0,.5);color:var(--text)}
+.ncard .body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.ncard .meta{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-bottom:9px;font-family:var(--mono)}
+.ncard h3{font-size:16.5px;font-weight:600;line-height:1.35;margin-bottom:9px}
+.ncard p{font-size:13.5px;color:var(--muted);line-height:1.5;flex:1}
+.ncard .more{margin-top:12px;font-size:13px;color:var(--gold2);display:inline-flex;align-items:center;gap:5px}
+.load{text-align:center;color:var(--muted);padding:60px}
+.digest{border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:26px;
+  background:radial-gradient(500px 200px at 0% 0%,rgba(201,162,84,.09),transparent 70%),var(--surface)}
+.digest .dh{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.digest .av{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;border:1.5px solid var(--gold);color:var(--gold2);font-family:var(--serif);font-size:19px;flex:0 0 auto}
+.digest .dl{font-weight:600;font-size:15.5px} .digest .dt{font-size:12px;color:var(--dim);margin-top:1px}
+.digest p{font-size:15.5px;line-height:1.75;color:var(--text)}
+.digest .skel{height:14px;background:var(--surface2);border-radius:6px;margin:9px 0;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media(max-width:700px){.navlinks{display:none}.h1{font-size:28px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav">
+  <div class="logo"><span class="mark">§</span>Verdict</div>
+  <div class="navlinks"><a href="index.html">Головна</a><a href="analiz.html">Аналіз</a><a href="instrumenty.html">Інструменти</a><a href="#" class="on">Новини</a><a href="bot.html">Бот</a></div>
+  <a class="btn" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Матеріали справи</div>
+    <div class="h1">Новини, що рухають ринок</div>
+    <div class="sub">Свіжий потік крипто-новин з оцінкою настрою. Щоб не пропустити подію, яка змінює вердикт.</div>
+  </div>
+  <div class="filters" id="filters">
+    <div class="fchip on" data-c="">Усі</div>
+    <div class="fchip" data-c="BTC">Bitcoin</div>
+    <div class="fchip" data-c="ETH">Ethereum</div>
+    <div class="fchip" data-c="SOL">Solana</div>
+    <div class="fchip" data-c="Regulation">Регуляції</div>
+    <div class="fchip" data-c="Trading">Трейдинг</div>
+  </div>
+  <div id="digest" class="digest" style="display:none"></div>
+  <div id="feed" class="feed"><div class="load">Завантажуємо матеріали…</div></div>
+</div>
+
+<script>
+let ALL=[], FILTER='';
+const BULL=['surge','rally','soar','gain','bull','up ','jump','high','adopt','approve','inflow','partnership','breakout','pump','win'];
+const BEAR=['crash','plunge','drop','fall','bear','down','hack','exploit','ban','lawsuit','sell-off','dump','fear','liquidat','outflow','warn'];
+function sentiment(t){t=t.toLowerCase();let b=0,s=0;BULL.forEach(w=>{if(t.includes(w))b++});BEAR.forEach(w=>{if(t.includes(w))s++});return b>s?'bull':s>b?'bear':'neut';}
+function ago(u){const d=Math.floor((Date.now()/1000-u)/60);if(d<60)return d+' хв тому';const h=Math.floor(d/60);if(h<24)return h+' год тому';return Math.floor(h/24)+' дн тому';}
+function render(){
+  let list=ALL;
+  if(FILTER) list=ALL.filter(n=>(n.categories||'').toUpperCase().includes(FILTER.toUpperCase())||(n.title||'').toUpperCase().includes(FILTER.toUpperCase()));
+  if(!list.length){document.getElementById('feed').innerHTML='<div class="load">За цим фільтром новин поки немає.</div>';return;}
+  document.getElementById('feed').innerHTML=list.slice(0,30).map(n=>{
+    const s=sentiment(n.title+' '+(n.body||'')); const sl={bull:'Бичача',bear:'Ведмежа',neut:'Нейтральна'}[s];
+    const img=n.imageurl?`style="background-image:url('${n.imageurl}')"`:'';
+    const snip=(n.body||'').slice(0,140).trim()+'…';
+    return `<a class="ncard" href="${n.url}" target="_blank" rel="noopener">
+      <div class="img" ${img}><span class="sent ${s}">${sl}</span></div>
+      <div class="body"><div class="meta"><span>${n.source_info?.name||n.source||''}</span><span>${ago(n.published_on)}</span></div>
+      <h3>${n.title}</h3><p>${snip}</p><span class="more">Читати повністю →</span></div></a>`;
+  }).join('');
+}
+document.getElementById('filters').addEventListener('click',e=>{
+  const c=e.target.closest('.fchip');if(!c)return;
+  document.querySelectorAll('.fchip').forEach(x=>x.classList.remove('on'));c.classList.add('on');
+  FILTER=c.dataset.c;render();
+});
+// Новини беремо з нашого бекенду (домен, який не ріже браузер/адблок)
+const API='https://successful-heart-production-c5b4.up.railway.app';
+async function load(){
+  try{
+    const r=await fetch(API+'/news');
+    const d=await r.json();
+    ALL=(d.news||[]).map(n=>({...n,source_info:{name:n.source}}));
+    if(ALL.length) render();
+    else document.getElementById('feed').innerHTML='<div class="load">Новин поки немає. Онови за хвилину.</div>';
+  }catch(e){document.getElementById('feed').innerHTML='<div class="load">Не вдалося завантажити новини.</div>';}
+}
+async function loadDigest(){
+  const el=document.getElementById('digest');
+  el.style.display='block';
+  el.innerHTML='<div class="dh"><div class="av">§</div><div><div class="dl">Вердикт експерта</div><div class="dt">AI аналізує свіжі новини…</div></div></div><div class="skel" style="width:100%"></div><div class="skel" style="width:92%"></div><div class="skel" style="width:78%"></div>';
+  try{
+    const r=await fetch(API+'/news_digest'); const d=await r.json();
+    if(d.digest){
+      el.innerHTML=`<div class="dh"><div class="av">§</div><div><div class="dl">Вердикт експерта</div><div class="dt">AI-зведення зі свіжих новин · Verdict</div></div></div><p>${d.digest}</p>`;
+    }else el.style.display='none';
+  }catch(e){el.style.display='none';}
+}
+load(); loadDigest(); setInterval(load,180000); setInterval(loadDigest,1800000);
+</script>
+</body>
+</html>

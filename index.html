@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0D10'/><text x='32' y='48' font-size='46' text-anchor='middle' fill='%23C9A227' font-family='Georgia,serif'>§</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Verdict">
+<meta property="og:title" content="Verdict — крипто-аналіз і AI-сигнали на доказах">
+<meta property="og:description" content="Крипто-аналіз, AI-зведення новин і прозорий торговий бот. Рішення на доказах, не на емоціях.">
+<meta property="og:image" content="https://verdict.netlify.app/og.png">
+<meta property="og:url" content="https://verdict.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
+<title>Verdict — крипто-аналіз і AI-сигнали на доказах</title>
+<meta name="description" content="Verdict — крипто-аналіз, AI-сигнали та прозорий торговий бот. Рішення на доказах, не на емоціях.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0D10; --bg2:#101419; --surface:#141A21; --surface2:#1A222B;
+  --line:rgba(201,162,84,0.14); --line2:rgba(255,255,255,0.06);
+  --gold:#C9A227; --gold2:#E4C76B; --bronze:#9A7B3A;
+  --text:#ECE8DF; --muted:#9A9B94; --dim:#65665F;
+  --up:#3FB37F; --down:#E0564E;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;
+  background-image:radial-gradient(900px 500px at 80% -10%, rgba(201,162,84,0.10), transparent 60%),
+                   radial-gradient(700px 500px at -10% 20%, rgba(201,162,84,0.05), transparent 60%);}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.gold{color:var(--gold2)}
+.serif{font-family:var(--serif)}
+.mono{font-family:var(--mono)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:rgba(11,13,16,0.72);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:.5px}
+.logo .mark{width:30px;height:30px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:16px}
+.navlinks{display:flex;gap:30px;font-size:14.5px;color:var(--muted)}
+.navlinks a{transition:color .2s;position:relative}
+.navlinks a:hover{color:var(--text)}
+.navlinks a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--gold);transition:width .25s}
+.navlinks a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:500;
+  border:1px solid var(--gold);color:var(--gold2);transition:all .22s;cursor:pointer;background:transparent}
+.btn:hover{background:var(--gold);color:#15110a;transform:translateY(-1px)}
+.btn.solid{background:var(--gold);color:#15110a}
+.btn.solid:hover{background:var(--gold2)}
+.btn.ghost{border-color:var(--line);color:var(--text)}
+.btn.ghost:hover{border-color:var(--gold);background:rgba(201,162,84,.08);color:var(--gold2)}
+
+/* TICKER */
+.ticker{border-bottom:1px solid var(--line2);background:rgba(0,0,0,.25);overflow:hidden}
+.tk{display:flex;gap:40px;padding:9px 0;font-family:var(--mono);font-size:13px;white-space:nowrap;
+  animation:slide 26s linear infinite}
+.tk span{color:var(--muted)}
+.tk b{color:var(--text);font-weight:500}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* HERO */
+.hero{padding:96px 0 80px;text-align:center;position:relative}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold2);border:1px solid var(--line);border-radius:30px;padding:7px 16px;margin-bottom:30px;background:rgba(201,162,84,.05)}
+.hero h1{font-family:var(--serif);font-size:62px;line-height:1.08;font-weight:600;letter-spacing:-.5px;max-width:880px;margin:0 auto 22px}
+.hero h1 em{font-style:italic;color:var(--gold2)}
+.lead{font-size:19px;color:var(--muted);max-width:600px;margin:0 auto 38px}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.cta .btn{padding:14px 26px;font-size:15.5px}
+.scroll-hint{margin-top:64px;color:var(--dim);font-size:13px;letter-spacing:1px}
+
+/* SECTION */
+section{padding:84px 0}
+.eyebrow{font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--bronze);margin-bottom:14px;font-weight:600}
+.h2{font-family:var(--serif);font-size:40px;font-weight:600;letter-spacing:-.3px;margin-bottom:16px;line-height:1.15}
+.sub{color:var(--muted);font-size:17px;max-width:560px}
+.center{text-align:center}
+.center .sub{margin:0 auto}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:54px}
+.step{background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:32px 28px;position:relative;
+  transition:transform .3s, border-color .3s}
+.step:hover{transform:translateY(-5px);border-color:var(--line)}
+.step .n{font-family:var(--mono);font-size:13px;color:var(--bronze);letter-spacing:2px}
+.step .ic{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;margin:18px 0 18px;
+  background:rgba(201,162,84,.09);border:1px solid var(--line);color:var(--gold2);font-size:24px}
+.step h3{font-family:var(--serif);font-size:23px;font-weight:600;margin-bottom:10px}
+.step p{color:var(--muted);font-size:15px}
+
+/* PROOF / STATS */
+.proof{background:linear-gradient(180deg,transparent, rgba(201,162,84,.04), transparent);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+.stat{text-align:center;padding:26px 16px;border:1px solid var(--line2);border-radius:14px;background:rgba(20,26,33,.55)}
+.stat .v{font-family:var(--mono);font-size:36px;font-weight:700;color:var(--text);letter-spacing:-1px}
+.stat .v.pos{color:var(--up)} .stat .l{color:var(--muted);font-size:13.5px;margin-top:6px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--up);margin-top:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--up);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* FEATURES */
+.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:52px}
+.fcard{background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:30px;display:flex;gap:20px;
+  transition:border-color .3s, transform .3s}
+.fcard:hover{border-color:var(--line);transform:translateY(-3px)}
+.fcard .fi{flex:0 0 auto;width:50px;height:50px;border-radius:12px;display:grid;place-items:center;
+  background:rgba(201,162,84,.09);border:1px solid var(--line);color:var(--gold2);font-size:23px}
+.fcard h4{font-size:19px;font-weight:600;margin-bottom:8px}
+.fcard p{color:var(--muted);font-size:14.5px}
+
+/* CTA BAND */
+.band{text-align:center;border:1px solid var(--line);border-radius:22px;padding:60px 30px;margin:0 0 0;
+  background:radial-gradient(600px 300px at 50% 0%, rgba(201,162,84,.10), transparent 70%), var(--surface)}
+.band h2{font-family:var(--serif);font-size:40px;font-weight:600;margin-bottom:16px}
+.band p{color:var(--muted);font-size:17px;margin-bottom:30px}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line2);padding:48px 0 40px;margin-top:90px;color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.foot a:hover{color:var(--gold2)}
+.foot .col{display:flex;flex-direction:column;gap:10px}
+.disc{margin-top:34px;padding-top:20px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--dim);max-width:760px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease}
+.rv.in{opacity:1;transform:none}
+
+@media(max-width:860px){
+  .navlinks{display:none}
+  .hero h1{font-size:40px} .h2,.band h2{font-size:30px}
+  .steps,.feat{grid-template-columns:1fr} .stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav">
+    <div class="logo"><span class="mark">§</span>Verdict</div>
+    <div class="navlinks">
+      <a href="#how">Як працює</a>
+      <a href="#proof">Докази</a>
+      <a href="#feat">Можливості</a>
+      <a href="#bot">Бот</a>
+      <a href="#contact">Контакти</a>
+    </div>
+    <a class="btn solid" href="analiz.html">Відкрити аналіз</a>
+  </div>
+</nav>
+
+<div class="ticker">
+  <div class="wrap"><div class="tk" id="tk"><span>Завантаження ринку…</span></div></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker rv">⚖ Рішення на доказах, не на емоціях</span>
+    <h1 class="rv">Ринок виносить <em>вирок</em> щодня.<br>Ми читаємо <em>докази</em> першими.</h1>
+    <p class="lead rv">Verdict — крипто-аналіз, AI-сигнали та прозорий торговий бот. Кожен сигнал — це вердикт, підкріплений доказами, а не вгадування.</p>
+    <div class="cta rv">
+      <a class="btn solid" href="analiz.html">Відкрити справу <span>→</span></a>
+      <a class="btn ghost" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener" id="tgbtn">Telegram-канал</a>
+    </div>
+    <div class="scroll-hint rv">прокрути нижче — покажемо, як це працює ↓</div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap center">
+    <div class="eyebrow rv">Процес</div>
+    <div class="h2 rv">Від справи — до вердикту</div>
+    <p class="sub rv">Три кроки. Прозоро, по-юридичному: спершу матеріали, потім докази, тоді — рішення.</p>
+    <div class="steps">
+      <div class="step rv"><div class="n">КРОК 01</div><div class="ic">⚖</div><h3>Справа</h3><p>Обираєш актив — відкриваєш «справу». Графік, стакан, ціни в реальному часі під рукою.</p></div>
+      <div class="step rv"><div class="n">КРОК 02</div><div class="ic">🔍</div><h3>Докази</h3><p>12 індикаторів + AI збирають докази: тренд, обʼєм, книга ордерів, новини, патерни.</p></div>
+      <div class="step rv"><div class="n">КРОК 03</div><div class="ic">§</div><h3>Вердикт</h3><p>Чіткий висновок: лонг, шорт чи чекати — з рівнями входу, SL/TP і силою сигналу.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="proof" class="proof">
+  <div class="wrap center">
+    <div class="eyebrow rv">Докази на столі</div>
+    <div class="h2 rv">Наш бот торгує наживо. Відкрито.</div>
+    <p class="sub rv">Криптан веде угоди в симуляції з повним журналом і причинами. Жодних скрінів «успіху» — лише реальна статистика з бази.</p>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="v pos" id="s-pnl">—</div><div class="l">Загальний PnL</div></div>
+      <div class="stat"><div class="v" id="s-wr">—</div><div class="l">Вінрейт</div></div>
+      <div class="stat"><div class="v" id="s-tr">—</div><div class="l">Закритих угод</div></div>
+      <div class="stat"><div class="v" id="s-open">—</div><div class="l">Відкритих зараз</div></div>
+    </div>
+    <div class="live rv"><span class="dot"></span>дані оновлюються з бази бота</div>
+  </div>
+</section>
+
+<section id="feat">
+  <div class="wrap">
+    <div class="center"><div class="eyebrow rv">Чому Verdict</div><div class="h2 rv">Не просто графік — готова думка</div></div>
+    <div class="feat">
+      <div class="fcard rv"><div class="fi">🧠</div><div><h4>AI-скоринг сигналу</h4><p>12 факторів зважуються в один вердикт із силою у %. TradingView показує графік — ми даємо рішення.</p></div></div>
+      <div class="fcard rv"><div class="fi">📂</div><div><h4>Радикальна прозорість</h4><p>Архів справ бота: кожна угода з причиною, чому її відкрито й закрито. Чесно до останньої цифри.</p></div></div>
+      <div class="fcard rv"><div class="fi">📈</div><div><h4>Профі-графік і стакан</h4><p>Малювання ліній і рівнів, реальна книга ордерів як на біржі. Працює, а не гальмує.</p></div></div>
+      <div class="fcard rv"><div class="fi">🗞</div><div><h4>Новини, що рухають ринок</h4><p>Регулярна стрічка з оцінкою настрою — щоб не пропустити подію, яка змінює вердикт.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="bot">
+  <div class="wrap">
+    <div class="band rv">
+      <h2>Винеси свій вердикт</h2>
+      <p>Дивись, що робить наш бот і <span class="gold">чому</span> — і торгуй сам, на доказах.</p>
+      <div class="cta"><a class="btn solid" href="analiz.html">Відкрити аналіз <span>→</span></a><a class="btn ghost" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Приєднатись до каналу</a></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot">
+      <div class="col" style="max-width:300px">
+        <div class="logo" style="font-size:20px"><span class="mark" style="width:26px;height:26px;font-size:14px">§</span>Verdict</div>
+        <p style="color:var(--dim);font-size:13.5px;margin-top:6px">Крипто-аналіз і AI-сигнали на доказах. Рішення замість емоцій.</p>
+      </div>
+      <div class="col"><b style="color:var(--text)">Навігація</b><a href="#how">Як працює</a><a href="#proof">Докази</a><a href="#feat">Можливості</a></div>
+      <div class="col"><b style="color:var(--text)">Звʼязок</b><a href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram-канал</a><a href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Написати нам</a><a href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Реклама / співпраця</a></div>
+    </div>
+    <p class="disc">Verdict — інформаційно-аналітичний інструмент. Це не фінансова порада. Торгівля криптовалютою повʼязана з ризиком; рішення ти приймаєш самостійно. Статистика бота наведена з симуляції.</p>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+async function loadTicker(){
+  try{
+    const r=await fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=%5B%22SOLUSDT%22,%22BTCUSDT%22,%22ETHUSDT%22%5D');
+    const d=await r.json();
+    const name={SOLUSDT:'SOL',BTCUSDT:'BTC',ETHUSDT:'ETH'};
+    let html='';
+    const row=d.map(c=>{
+      const ch=parseFloat(c.priceChangePercent), col=ch>=0?'var(--up)':'var(--down)', sign=ch>=0?'+':'';
+      const p=parseFloat(c.lastPrice); const pr=p>1000?p.toLocaleString('en-US',{maximumFractionDigits:0}):p.toFixed(2);
+      return `<span>${name[c.symbol]}</span> <b>$${pr}</b> <span style="color:${col}">${sign}${ch.toFixed(2)}%</span>`;
+    }).join('<span style="color:var(--dim)">|</span>');
+    html=(row+'<span style="color:var(--dim)">|</span>').repeat(4);
+    document.getElementById('tk').innerHTML=html;
+  }catch(e){document.getElementById('tk').innerHTML='<span>Ринок тимчасово недоступний</span>';}
+}
+async function loadStats(){
+  try{
+    const r=await fetch('https://successful-heart-production-c5b4.up.railway.app/stats');
+    const s=await r.json();
+    const pnl=s.total_pnl||0;
+    const el=document.getElementById('s-pnl'); el.textContent=(pnl>=0?'+':'')+'$'+Math.round(pnl).toLocaleString('en-US');
+    el.className='v '+(pnl>=0?'pos':'');
+    document.getElementById('s-wr').textContent=(s.accuracy||0)+'%';
+    document.getElementById('s-tr').textContent=s.closed||0;
+    document.getElementById('s-open').textContent=s.open||0;
+  }catch(e){['s-pnl','s-wr','s-tr','s-open'].forEach(i=>document.getElementById(i).textContent='—');}
+}
+loadTicker(); loadStats(); setInterval(loadTicker,20000); setInterval(loadStats,30000);
+</script>
+</body>
+</html>

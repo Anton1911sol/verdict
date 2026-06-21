@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0D10'/><text x='32' y='48' font-size='46' text-anchor='middle' fill='%23C9A227' font-family='Georgia,serif'>§</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Verdict">
+<meta property="og:title" content="Verdict — Аналіз">
+<meta property="og:description" content="Крипто-аналіз, AI-зведення новин і прозорий торговий бот. Рішення на доказах, не на емоціях.">
+<meta property="og:image" content="https://verdict.netlify.app/og.png">
+<meta property="og:url" content="https://verdict.netlify.app/analiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<title>Verdict — Аналіз</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0D10; --surface:#141A21; --surface2:#1A222B;
+  --line:rgba(201,162,84,0.14); --line2:rgba(255,255,255,0.06);
+  --gold:#C9A227; --gold2:#E4C76B; --bronze:#9A7B3A;
+  --text:#ECE8DF; --muted:#9A9B94; --dim:#65665F;
+  --up:#3FB37F; --down:#E0564E;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;
+  background-image:radial-gradient(800px 400px at 85% -10%, rgba(201,162,84,0.07), transparent 60%);}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.mono{font-family:var(--mono)}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(11,13,16,0.72);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.5px}
+.logo .mark{width:28px;height:28px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:15px}
+.navlinks{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+.navlinks a{transition:color .2s} .navlinks a:hover{color:var(--text)} .navlinks a.on{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:500;
+  border:1px solid var(--gold);color:var(--gold2);transition:all .2s;cursor:pointer;background:transparent}
+.btn:hover{background:var(--gold);color:#15110a}
+
+/* asset selector */
+.assets{display:flex;align-items:center;gap:10px;padding:18px 0 10px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:9px;padding:9px 15px;border-radius:11px;border:1px solid var(--line2);
+  background:var(--surface);cursor:pointer;transition:all .2s;font-size:14px}
+.chip:hover{border-color:var(--line)}
+.chip.on{border-color:var(--gold);background:rgba(201,162,84,.08)}
+.chip .sym{font-weight:600} .chip .px{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.chip.on .px{color:var(--gold2)}
+.soon{color:var(--dim);font-size:13px;border:1px dashed var(--line2);border-radius:11px;padding:9px 14px}
+
+.grid{display:grid;grid-template-columns:1fr 340px;gap:18px;margin-top:8px}
+.card{background:var(--surface);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
+.card .hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line2)}
+.card .hd h3{font-size:15px;font-weight:600} .card .hd .tag{font-size:12px;color:var(--bronze);letter-spacing:1px;text-transform:uppercase}
+#tvchart{height:482px;width:100%}
+
+/* order book */
+.ob{padding:8px 0} .obrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:var(--mono);font-size:12.5px;
+  padding:3px 18px;position:relative}
+.obrow .p{z-index:2} .obrow .s{z-index:2;text-align:right;color:var(--muted)}
+.obrow .bar{position:absolute;top:0;bottom:0;right:0;z-index:1;opacity:.14}
+.ob .ask .p{color:var(--down)} .ob .ask .bar{background:var(--down)}
+.ob .bid .p{color:var(--up)} .ob .bid .bar{background:var(--up)}
+.obmid{text-align:center;font-family:var(--mono);font-size:18px;font-weight:700;padding:10px;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);margin:6px 0}
+.spread{font-size:11px;color:var(--dim);font-weight:400}
+
+/* verdict panel */
+.verdict{padding:18px}
+.vhead{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.vbadge{font-family:var(--serif);font-size:26px;font-weight:700;padding:8px 20px;border-radius:12px;border:1.5px solid}
+.vbadge.long{color:var(--up);border-color:var(--up);background:rgba(63,179,127,.08)}
+.vbadge.short{color:var(--down);border-color:var(--down);background:rgba(224,86,78,.08)}
+.vbadge.wait{color:var(--muted);border-color:var(--line2)}
+.vmeta{font-size:13px;color:var(--muted)} .vmeta b{color:var(--text)}
+.bars{display:flex;flex-direction:column;gap:9px;margin:14px 0}
+.brow{display:grid;grid-template-columns:120px 1fr 38px;align-items:center;gap:10px;font-size:13px}
+.brow .bl{color:var(--muted)} .brow .track{height:7px;background:var(--line2);border-radius:6px;overflow:hidden}
+.brow .fill{height:100%;border-radius:6px;background:var(--gold);transition:width .6s}
+.brow .bv{font-family:var(--mono);font-size:12px;text-align:right;color:var(--muted)}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.lv{background:var(--surface2);border-radius:11px;padding:12px;text-align:center}
+.lv .ll{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.lv .lvv{font-family:var(--mono);font-size:17px;font-weight:600;margin-top:4px}
+.lv.sl .lvv{color:var(--down)} .lv.tp .lvv{color:var(--up)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.met{background:var(--surface2);border-radius:11px;padding:12px;text-align:center}
+.met .ml{font-size:11.5px;color:var(--muted)} .met .mv{font-family:var(--mono);font-size:16px;font-weight:600;margin-top:3px}
+.disc{color:var(--dim);font-size:11.5px;margin:24px 0 40px;text-align:center}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.navlinks{display:none}.metrics{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav">
+  <div class="logo"><span class="mark">§</span>Verdict</div>
+  <div class="navlinks"><a href="index.html">Головна</a><a href="#" class="on">Аналіз</a><a href="instrumenty.html">Інструменти</a><a href="novyny.html">Новини</a><a href="bot.html">Бот</a></div>
+  <a class="btn" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="assets" id="assets">
+    <div class="chip on" data-sym="SOLUSDT" data-tv="BINANCE:SOLUSDT"><span class="sym">SOL</span><span class="px" id="px-SOLUSDT">—</span></div>
+    <div class="chip" data-sym="BTCUSDT" data-tv="BINANCE:BTCUSDT"><span class="sym">BTC</span><span class="px" id="px-BTCUSDT">—</span></div>
+    <div class="chip" data-sym="ETHUSDT" data-tv="BINANCE:ETHUSDT"><span class="sym">ETH</span><span class="px" id="px-ETHUSDT">—</span></div>
+    <div class="soon">Метали · Нафта · Акції — скоро</div>
+  </div>
+
+  <div class="grid">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card">
+        <div class="hd"><h3 id="chart-title">SOL / USDT</h3><span class="tag">Справа №<span id="caseno">001</span></span></div>
+        <div id="tvchart"></div>
+      </div>
+      <div class="card">
+        <div class="hd"><h3>Вердикт</h3><span class="tag">Докази · 12 факторів</span></div>
+        <div class="verdict">
+          <div class="vhead">
+            <div class="vbadge wait" id="vbadge">ЧЕКАТИ</div>
+            <div class="vmeta">Сила сигналу: <b id="vstrength">—</b><br>Напрям тренду 4h+1h: <b id="vtrend">—</b></div>
+          </div>
+          <div class="metrics">
+            <div class="met"><div class="ml">Ціна</div><div class="mv" id="m-price">—</div></div>
+            <div class="met"><div class="ml">24г</div><div class="mv" id="m-24h">—</div></div>
+            <div class="met"><div class="ml">RSI(14)</div><div class="mv" id="m-rsi">—</div></div>
+            <div class="met"><div class="ml">MA(7/25)</div><div class="mv" id="m-ma">—</div></div>
+          </div>
+          <div class="bars" id="bars"></div>
+          <div class="levels">
+            <div class="lv"><div class="ll">Вхід</div><div class="lvv" id="l-entry">—</div></div>
+            <div class="lv sl"><div class="ll">Stop-loss</div><div class="lvv" id="l-sl">—</div></div>
+            <div class="lv tp"><div class="ll">Take-profit</div><div class="lvv" id="l-tp">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="align-self:start">
+      <div class="hd"><h3>Стакан ордерів</h3><span class="tag" id="ob-sym">SOL</span></div>
+      <div class="ob" id="ob">
+        <div id="asks"></div>
+        <div class="obmid" id="obmid">—</div>
+        <div id="bids"></div>
+      </div>
+    </div>
+  </div>
+  <p class="disc">Прототип. Сигнал рахується спрощено (RSI/MA) — повну логіку Криптана (12 факторів) під'єднаємо далі. Не фінансова порада.</p>
+</div>
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+<script>
+let SYM='SOLUSDT', TV='BINANCE:SOLUSDT', widget=null, caseN=1;
+function mkChart(){
+  document.getElementById('tvchart').innerHTML='';
+  widget=new TradingView.widget({container_id:'tvchart',symbol:TV,interval:'15',theme:'dark',style:'1',
+    locale:'ua',autosize:true,hide_side_toolbar:false,withdateranges:true,allow_symbol_change:false,
+    toolbar_bg:'#141A21',overrides:{'paneProperties.background':'#141A21','paneProperties.backgroundType':'solid'}});
+}
+// indicators
+function ma(c,p){if(c.length<p)return null;return c.slice(-p).reduce((a,b)=>a+b,0)/p;}
+function rsi(c,p=14){if(c.length<p+1)return null;let g=0,l=0;for(let i=c.length-p;i<c.length;i++){const d=c[i]-c[i-1];d>0?g+=d:l-=d;}if(l===0)return 100;return 100-100/(1+g/l);}
+function fmt(n){return n>1000?Math.round(n).toLocaleString('en-US'):n.toFixed(n>1?2:4);}
+
+async function loadAll(){
+  try{
+    const t=await(await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${SYM}`)).json();
+    const price=parseFloat(t.lastPrice), ch=parseFloat(t.priceChangePercent);
+    document.getElementById('m-price').textContent='$'+fmt(price);
+    const e24=document.getElementById('m-24h'); e24.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%'; e24.style.color=ch>=0?'var(--up)':'var(--down)';
+    document.getElementById('px-'+SYM).textContent='$'+fmt(price);
+
+    const k=await(await fetch(`https://api.binance.com/api/v3/klines?symbol=${SYM}&interval=15m&limit=120`)).json();
+    const closes=k.map(x=>parseFloat(x[4]));
+    const r=rsi(closes), ma7=ma(closes,7), ma25=ma(closes,25), ma99=ma(closes,99);
+    document.getElementById('m-rsi').textContent=r?r.toFixed(0):'—';
+    document.getElementById('m-ma').textContent=ma7&&ma25?(ma7>ma25?'↑ бичачий':'↓ ведмежий'):'—';
+
+    // спрощений вердикт
+    let dir='ЧЕКАТИ',cls='wait',str=40;
+    if(ma7&&ma25&&ma99&&r){
+      if(ma7>ma25&&ma25>ma99&&r<68){dir='ЛОНГ';cls='long';str=Math.min(90,55+(r<50?15:0));}
+      else if(ma7<ma25&&ma25<ma99&&r>32){dir='ШОРТ';cls='short';str=Math.min(90,55+(r>50?15:0));}
+    }
+    const vb=document.getElementById('vbadge'); vb.textContent=dir; vb.className='vbadge '+cls;
+    document.getElementById('vstrength').textContent=str+'%';
+    document.getElementById('vtrend').textContent=ma7>ma99?'↑ вгору':'↓ вниз';
+
+    const atr=price*0.012;
+    const entry=price, sl=dir==='ШОРТ'?price+atr*1.6:price-atr*1.6, tp=dir==='ШОРТ'?price-atr*2.6:price+atr*2.6;
+    document.getElementById('l-entry').textContent=dir==='ЧЕКАТИ'?'—':'$'+fmt(entry);
+    document.getElementById('l-sl').textContent=dir==='ЧЕКАТИ'?'—':'$'+fmt(sl);
+    document.getElementById('l-tp').textContent=dir==='ЧЕКАТИ'?'—':'$'+fmt(tp);
+
+    const factors=[['Тренд MA',ma7>ma25?80:30],['RSI',r?Math.abs(50-r)*2:40],['Momentum',55],['Книга ордерів',50],['Обʼєм',60],['Новини',45]];
+    document.getElementById('bars').innerHTML=factors.map(f=>`<div class="brow"><span class="bl">${f[0]}</span><div class="track"><div class="fill" style="width:${f[1]}%"></div></div><span class="bv">${f[1]}%</span></div>`).join('');
+  }catch(e){console.log(e);}
+}
+async function loadOB(){
+  try{
+    const d=await(await fetch(`https://api.binance.com/api/v3/depth?symbol=${SYM}&limit=12`)).json();
+    const maxA=Math.max(...d.asks.map(a=>parseFloat(a[1]))), maxB=Math.max(...d.bids.map(b=>parseFloat(b[1])));
+    document.getElementById('asks').innerHTML=d.asks.slice(0,10).reverse().map(a=>{const s=parseFloat(a[1]);return `<div class="obrow ask"><span class="p">${fmt(parseFloat(a[0]))}</span><span class="s">${s.toFixed(1)}</span><div class="bar" style="width:${s/maxA*100}%"></div></div>`;}).join('');
+    document.getElementById('bids').innerHTML=d.bids.slice(0,10).map(b=>{const s=parseFloat(b[1]);return `<div class="obrow bid"><span class="p">${fmt(parseFloat(b[0]))}</span><span class="s">${s.toFixed(1)}</span><div class="bar" style="width:${s/maxB*100}%"></div></div>`;}).join('');
+    const bestB=parseFloat(d.bids[0][0]), bestA=parseFloat(d.asks[0][0]);
+    document.getElementById('obmid').innerHTML=`${fmt((bestA+bestB)/2)} <span class="spread">спред ${(bestA-bestB).toFixed(2)}</span>`;
+  }catch(e){}
+}
+document.getElementById('assets').addEventListener('click',ev=>{
+  const c=ev.target.closest('.chip'); if(!c)return;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on')); c.classList.add('on');
+  SYM=c.dataset.sym; TV=c.dataset.tv;
+  document.getElementById('chart-title').textContent=c.querySelector('.sym').textContent+' / USDT';
+  document.getElementById('ob-sym').textContent=c.querySelector('.sym').textContent;
+  document.getElementById('caseno').textContent=String(++caseN).padStart(3,'0');
+  mkChart(); loadAll(); loadOB();
+});
+mkChart(); loadAll(); loadOB();
+['SOLUSDT','BTCUSDT','ETHUSDT'].forEach(async s=>{try{const t=await(await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${s}`)).json();document.getElementById('px-'+s).textContent='$'+fmt(parseFloat(t.price));}catch(e){}});
+setInterval(loadAll,15000); setInterval(loadOB,3000);
+</script>
+</body>
+</html>
