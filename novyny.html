@@ -60,13 +60,13 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
 .digest p{font-size:15.5px;line-height:1.75;color:var(--text)}
 .digest .skel{height:14px;background:var(--surface2);border-radius:6px;margin:9px 0;animation:pulse 1.4s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@media(max-width:700px){.navlinks{display:none}.h1{font-size:28px}}
+@media(max-width:700px){.nav{height:auto;flex-wrap:wrap;padding:8px 0}.navlinks{order:3;width:100%;gap:18px;font-size:13.5px;overflow-x:auto;white-space:nowrap;padding-bottom:2px}.h1{font-size:28px}}
 </style>
 </head>
 <body>
 <nav><div class="wrap nav">
   <div class="logo"><span class="mark">§</span>Verdict</div>
-  <div class="navlinks"><a href="index.html">Головна</a><a href="analiz.html">Аналіз</a><a href="instrumenty.html">Інструменти</a><a href="#" class="on">Новини</a><a href="bot.html">Бот</a></div>
+  <div class="navlinks"><a href="index.html">Головна</a><a href="analiz.html">Аналіз</a><a href="instrumenty.html">Інструменти</a><a class="on">Новини</a><a href="bot.html">Бот</a></div>
   <a class="btn" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram</a>
 </div></nav>
 
