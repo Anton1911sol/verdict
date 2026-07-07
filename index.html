@@ -257,11 +257,12 @@ async function loadStats(){
   try{
     const r=await fetch('https://successful-heart-production-c5b4.up.railway.app/stats');
     const s=await r.json();
-    const pnl=s.total_pnl||0;
+    const d=s.current||s;
+    const pnl=d.total_pnl||0;
     const el=document.getElementById('s-pnl'); el.textContent=(pnl>=0?'+':'')+'$'+Math.round(pnl).toLocaleString('en-US');
     el.className='v '+(pnl>=0?'pos':'');
-    document.getElementById('s-wr').textContent=(s.accuracy||0)+'%';
-    document.getElementById('s-tr').textContent=s.closed||0;
+    document.getElementById('s-wr').textContent=(d.accuracy||0)+'%';
+    document.getElementById('s-tr').textContent=d.closed||0;
     document.getElementById('s-open').textContent=s.open||0;
   }catch(e){['s-pnl','s-wr','s-tr','s-open'].forEach(i=>document.getElementById(i).textContent='—');}
 }
