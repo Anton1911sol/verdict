@@ -79,14 +79,7 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
     <div class="live"><span class="dot"></span>дані оновлюються з бази бота</div>
   </div>
 
-  <style>
-  #era-toggle button{padding:7px 14px;border-radius:20px;border:1px solid var(--line2);background:var(--surface);color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
-  #era-toggle button.eon{border-color:var(--gold);background:rgba(201,162,84,.08);color:var(--gold2)}
-  </style>
-  <div id="era-toggle" style="display:flex;gap:8px;margin:0 0 14px">
-    <button data-era="1" class="eon">З перебудови (23.06)</button>
-    <button data-era="0">Увесь час</button>
-  </div>
+  <div style="font-size:13px;color:var(--muted);margin:0 0 14px">📊 Результати з перебудови бота · 23.06.2026 · лише валідована версія</div>
   <div class="stats" id="stats">
     <div class="stat"><div class="v" id="s-pnl">—</div><div class="l">Загальний PnL</div></div>
     <div class="stat"><div class="v" id="s-wr">—</div><div class="l">Вінрейт</div></div>
@@ -95,7 +88,7 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
   </div>
 
   <div class="card">
-    <h3>Крива капіталу</h3><div class="cs">Накопичений PnL за всю історію угод</div>
+    <h3>Крива капіталу</h3><div class="cs">Накопичений PnL з перебудови (23.06)</div>
     <div style="height:280px"><canvas id="eq"></canvas></div>
   </div>
 
@@ -117,10 +110,10 @@ const API='https://successful-heart-production-c5b4.up.railway.app';
 function fmt(n){n=parseFloat(n);return Math.abs(n)>1000?Math.round(n).toLocaleString('en-US'):n.toFixed(2);}
 function ago(iso){if(!iso)return'';const d=Math.floor((Date.now()-new Date(iso+'Z').getTime())/60000);if(d<60)return d+'хв тому';if(d<1440)return Math.floor(d/60)+'г тому';return Math.floor(d/1440)+'дн тому';}
 
-let STATS=null, ERA=true;
+let STATS=null;
 function renderStats(){
   if(!STATS)return;
-  const s=(ERA && STATS.current)?STATS.current:STATS;
+  const s=STATS.current||STATS;
   const p=s.total_pnl||0;const el=document.getElementById('s-pnl');
   el.textContent=(p>=0?'+':'')+'$'+fmt(p);el.className='v '+(p>=0?'pos':'neg');
   document.getElementById('s-wr').textContent=(s.accuracy||0)+'%';
@@ -142,16 +135,10 @@ function renderStats(){
 async function loadStats(){
   try{ STATS=await(await fetch(API+'/stats')).json(); renderStats(); }catch(e){}
 }
-document.addEventListener('click',e=>{
-  const b=e.target.closest('#era-toggle button'); if(!b)return;
-  ERA=b.dataset.era==='1';
-  document.querySelectorAll('#era-toggle button').forEach(x=>x.classList.toggle('eon',x===b));
-  renderStats();
-});
 async function loadEquity(){
   try{
     const t=await(await fetch(API+'/trades_lite?limit=1000')).json();
-    const closed=t.filter(x=>x.pnl!==null&&x.closed_at).sort((a,b)=>new Date(a.closed_at)-new Date(b.closed_at));
+    const closed=t.filter(x=>x.pnl!==null&&x.closed_at&&new Date(x.closed_at)>=new Date('2026-06-23')).sort((a,b)=>new Date(a.closed_at)-new Date(b.closed_at));
     let cum=0;const pts=closed.map(x=>{cum+=parseFloat(x.pnl);return cum;});
     const labels=closed.map((x,i)=>i+1);
     new Chart(document.getElementById('eq'),{type:'line',
