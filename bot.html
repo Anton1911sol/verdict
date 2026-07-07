@@ -79,6 +79,14 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
     <div class="live"><span class="dot"></span>дані оновлюються з бази бота</div>
   </div>
 
+  <style>
+  #era-toggle button{padding:7px 14px;border-radius:20px;border:1px solid var(--line2);background:var(--surface);color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
+  #era-toggle button.eon{border-color:var(--gold);background:rgba(201,162,84,.08);color:var(--gold2)}
+  </style>
+  <div id="era-toggle" style="display:flex;gap:8px;margin:0 0 14px">
+    <button data-era="1" class="eon">З перебудови (23.06)</button>
+    <button data-era="0">Увесь час</button>
+  </div>
   <div class="stats" id="stats">
     <div class="stat"><div class="v" id="s-pnl">—</div><div class="l">Загальний PnL</div></div>
     <div class="stat"><div class="v" id="s-wr">—</div><div class="l">Вінрейт</div></div>
@@ -109,30 +117,37 @@ const API='https://successful-heart-production-c5b4.up.railway.app';
 function fmt(n){n=parseFloat(n);return Math.abs(n)>1000?Math.round(n).toLocaleString('en-US'):n.toFixed(2);}
 function ago(iso){if(!iso)return'';const d=Math.floor((Date.now()-new Date(iso+'Z').getTime())/60000);if(d<60)return d+'хв тому';if(d<1440)return Math.floor(d/60)+'г тому';return Math.floor(d/1440)+'дн тому';}
 
-async function loadStats(){
-  try{const s=await(await fetch(API+'/stats')).json();
-    const p=s.total_pnl||0;const el=document.getElementById('s-pnl');
-    el.textContent=(p>=0?'+':'')+'$'+fmt(p);el.className='v '+(p>=0?'pos':'neg');
-    document.getElementById('s-wr').textContent=(s.accuracy||0)+'%';
-    document.getElementById('s-tr').textContent=s.closed||0;
-    document.getElementById('s-open').textContent=s.open||0;
-    if(s.by_coin){
-      const coins=Object.keys(s.by_coin);
-      const leg=dir=>{return d=>{const x=(d&&d[dir])||{};const lbl=dir==='long'?'Л':'Ш';
-        if(!x.total)return `${lbl}: —`;const p=(x.pnl||0)>=0;
-        return `${lbl} ${x.total}: <b style="color:${p?'var(--up)':'var(--down)'}">${p?'+':''}$${fmt(x.pnl)}</b> · ${x.accuracy}%`;};};
-      const L=leg('long'),S=leg('short');
-      document.getElementById('coins').innerHTML=coins.map(c=>{
-        const d=s.by_coin[c]||{pnl:0,accuracy:0,total:0};const pos=(d.pnl||0)>=0;
-        const pf=d.pf!=null?`PF ${d.pf}`:'PF —';
-        const avg=(d.avg||0)>=0?'+':'';
-        return `<div class="coin"><div class="cn">${c}<span style="font-size:12px;color:var(--muted)">${d.total||0} угод</span></div>
-          <div class="cp" style="color:${pos?'var(--up)':'var(--down)'}">${pos?'+':''}$${fmt(d.pnl||0)}</div>
-          <div class="cm">вінрейт ${d.accuracy||0}% · ${pf} · сер ${avg}$${fmt(d.avg||0)}</div>
-          <div class="cm" style="margin-top:5px;font-size:12px">${L(d)} &nbsp;·&nbsp; ${S(d)}</div></div>`;}).join('');
-    }
-  }catch(e){}
+let STATS=null, ERA=true;
+function renderStats(){
+  if(!STATS)return;
+  const s=(ERA && STATS.current)?STATS.current:STATS;
+  const p=s.total_pnl||0;const el=document.getElementById('s-pnl');
+  el.textContent=(p>=0?'+':'')+'$'+fmt(p);el.className='v '+(p>=0?'pos':'neg');
+  document.getElementById('s-wr').textContent=(s.accuracy||0)+'%';
+  document.getElementById('s-tr').textContent=s.closed||0;
+  document.getElementById('s-open').textContent=STATS.open||0;
+  const bc=s.by_coin||{};const coins=Object.keys(bc);
+  const leg=dir=>{return d=>{const x=(d&&d[dir])||{};const lbl=dir==='long'?'Л':'Ш';
+    if(!x.total)return `${lbl}: —`;const q=(x.pnl||0)>=0;
+    return `${lbl} ${x.total}: <b style="color:${q?'var(--up)':'var(--down)'}">${q?'+':''}$${fmt(x.pnl)}</b> · ${x.accuracy}%`;};};
+  const L=leg('long'),S=leg('short');
+  document.getElementById('coins').innerHTML = coins.length ? coins.map(c=>{
+    const d=bc[c]||{pnl:0,accuracy:0,total:0};const pos=(d.pnl||0)>=0;
+    const pf=d.pf!=null?`PF ${d.pf}`:'PF —';const avg=(d.avg||0)>=0?'+':'';
+    return `<div class="coin"><div class="cn">${c}<span style="font-size:12px;color:var(--muted)">${d.total||0} угод</span></div>
+      <div class="cp" style="color:${pos?'var(--up)':'var(--down)'}">${pos?'+':''}$${fmt(d.pnl||0)}</div>
+      <div class="cm">вінрейт ${d.accuracy||0}% · ${pf} · сер ${avg}$${fmt(d.avg||0)}</div>
+      <div class="cm" style="margin-top:5px;font-size:12px">${L(d)} &nbsp;·&nbsp; ${S(d)}</div></div>`;}).join('') : '<div class="load">Ще нема угод у цьому періоді.</div>';
 }
+async function loadStats(){
+  try{ STATS=await(await fetch(API+'/stats')).json(); renderStats(); }catch(e){}
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('#era-toggle button'); if(!b)return;
+  ERA=b.dataset.era==='1';
+  document.querySelectorAll('#era-toggle button').forEach(x=>x.classList.toggle('eon',x===b));
+  renderStats();
+});
 async function loadEquity(){
   try{
     const t=await(await fetch(API+'/trades_lite?limit=1000')).json();
