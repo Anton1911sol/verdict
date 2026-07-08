@@ -28,7 +28,8 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
 .nav{display:flex;align-items:center;justify-content:space-between;height:62px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.5px}
 .logo .mark{width:28px;height:28px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:15px}
-.navlinks{display:flex;gap:26px;font-size:14px;color:var(--muted)} .navlinks a:hover{color:var(--text)} .navlinks a.on{color:var(--gold2)}
+.navlinks{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+.nvt{display:none}.burger{display:none;font-size:26px;line-height:1;color:var(--text);cursor:pointer;user-select:none;padding:2px 4px} .navlinks a:hover{color:var(--text)} .navlinks a.on{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:500;border:1px solid var(--gold);color:var(--gold2);cursor:pointer;transition:all .2s}
 .btn:hover{background:var(--gold);color:#15110a}
 .head{padding:36px 0 6px}
@@ -61,12 +62,14 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
 .rtag.ai{color:var(--gold2);border-color:var(--line)}
 .load{text-align:center;color:var(--muted);padding:40px}
 .disc{color:var(--dim);font-size:12px;text-align:center;margin:24px 0 50px}
-@media(max-width:760px){.nav{height:auto;flex-wrap:wrap;padding:8px 0}.navlinks{order:3;width:100%;gap:18px;font-size:13.5px;overflow-x:auto;white-space:nowrap;padding-bottom:2px}.stats{grid-template-columns:repeat(2,1fr)}.coins{grid-template-columns:1fr}.h1{font-size:28px}}
+@media(max-width:760px){.nav{position:relative}.burger{display:block}.nav .btn{display:none}.navlinks{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(11,13,16,.98);border:1px solid var(--line);border-radius:0 0 14px 14px;padding:6px 0;box-shadow:0 14px 34px rgba(0,0,0,.45)}.navlinks a{padding:13px 22px;font-size:15px}.nvt:checked~.navlinks{display:flex}.stats{grid-template-columns:repeat(2,1fr)}.coins{grid-template-columns:1fr}.h1{font-size:28px}}
 </style>
 </head>
 <body>
 <nav><div class="wrap nav">
   <div class="logo"><span class="mark">§</span>Verdict</div>
+  <input type="checkbox" id="nvt" class="nvt">
+  <label for="nvt" class="burger" aria-label="Меню">☰</label>
   <div class="navlinks"><a href="index.html">Головна</a><a href="analiz.html">Аналіз</a><a href="instrumenty.html">Інструменти</a><a href="novyny.html">Новини</a><a class="on">Бот</a></div>
   <a class="btn" href="https://t.me/verdict_AI_crypto" target="_blank" rel="noopener">Telegram</a>
 </div></nav>
@@ -85,6 +88,19 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(
     <div class="stat"><div class="v" id="s-wr">—</div><div class="l">Вінрейт</div></div>
     <div class="stat"><div class="v" id="s-tr">—</div><div class="l">Закритих угод</div></div>
     <div class="stat"><div class="v" id="s-open">—</div><div class="l">Відкритих зараз</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Як працює Криптан</h3><div class="cs">Не «чорна скринька», а ланцюг чітких правил</div>
+    <p style="color:var(--muted);font-size:14.5px;line-height:1.7;margin-top:6px">Криптан — торговий бот на Python з AI-агентом (Claude) для фінального рішення. На кожну угоду він:</p>
+    <ul style="color:var(--muted);font-size:14.5px;line-height:1.85;margin:10px 0 0;padding-left:20px">
+      <li>аналізує 12+ факторів: тренд (MA 7/25/99), RSI, MACD, Bollinger, книгу ордерів, обʼєм, патерни;</li>
+      <li>торгує лише за трендом старшого таймфрейму (4h+1h), не проти нього;</li>
+      <li>ставить фіксований ризик 2:1 і більший розмір на сильніший сигнал;</li>
+      <li>пропускає «пиляний» ринок (боковик) і перевіряє вхід фінальним AI-фільтром;</li>
+      <li>записує кожну угоду з причинами — їх видно у журналі нижче.</li>
+    </ul>
+    <p style="color:var(--dim);font-size:13px;margin-top:12px">Зараз на симуляції — реальні гроші ще не задіяні.</p>
   </div>
 
   <div class="card">

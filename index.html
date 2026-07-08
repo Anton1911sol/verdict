@@ -43,6 +43,7 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:.5px}
 .logo .mark{width:30px;height:30px;display:grid;place-items:center;border:1.5px solid var(--gold);border-radius:7px;color:var(--gold2);font-size:16px}
 .navlinks{display:flex;gap:30px;font-size:14.5px;color:var(--muted)}
+.nvt{display:none}.burger{display:none;font-size:26px;line-height:1;color:var(--text);cursor:pointer;user-select:none;padding:2px 4px}
 .navlinks a{transition:color .2s;position:relative}
 .navlinks a:hover{color:var(--text)}
 .navlinks a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--gold);transition:width .25s}
@@ -131,7 +132,7 @@ footer{border-top:1px solid var(--line2);padding:48px 0 40px;margin-top:90px;col
 .rv.in{opacity:1;transform:none}
 
 @media(max-width:860px){
-  .nav{height:auto;flex-wrap:wrap;padding:8px 0}.navlinks{order:3;width:100%;gap:18px;font-size:13.5px;overflow-x:auto;white-space:nowrap;padding-bottom:2px}
+  .nav{position:relative}.burger{display:block}.nav .btn{display:none}.navlinks{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(11,13,16,.98);border:1px solid var(--line);border-radius:0 0 14px 14px;padding:6px 0;box-shadow:0 14px 34px rgba(0,0,0,.45)}.navlinks a{padding:13px 22px;font-size:15px}.nvt:checked~.navlinks{display:flex}
   .hero h1{font-size:40px} .h2,.band h2{font-size:30px}
   .steps,.feat{grid-template-columns:1fr} .stats{grid-template-columns:repeat(2,1fr)}
 }
@@ -142,6 +143,8 @@ footer{border-top:1px solid var(--line2);padding:48px 0 40px;margin-top:90px;col
 <nav>
   <div class="wrap nav">
     <div class="logo"><span class="mark">§</span>Verdict</div>
+    <input type="checkbox" id="nvt" class="nvt">
+    <label for="nvt" class="burger" aria-label="Меню">☰</label>
     <div class="navlinks">
       <a href="#how">Як працює</a>
       <a href="#proof">Докази</a>
