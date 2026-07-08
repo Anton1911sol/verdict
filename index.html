@@ -104,12 +104,12 @@ section{padding:84px 0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* FEATURES */
-.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:52px}
-.fcard{background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:30px;display:flex;gap:20px;
-  transition:border-color .3s, transform .3s}
-.fcard:hover{border-color:var(--line);transform:translateY(-3px)}
-.fcard .fi{flex:0 0 auto;width:50px;height:50px;border-radius:12px;display:grid;place-items:center;
-  background:rgba(201,162,84,.09);border:1px solid var(--line);color:var(--gold2);font-size:23px}
+.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 40px;margin-top:52px}
+.fcard{background:transparent;border:none;border-bottom:1px solid var(--line2);border-radius:0;padding:24px 4px;display:flex;gap:18px;
+  transition:border-color .3s}
+.fcard:hover{border-bottom-color:var(--gold)}
+.fcard .fi{flex:0 0 auto;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+  background:rgba(201,162,84,.09);border:1px solid var(--line);color:var(--gold2);font-size:22px}
 .fcard h4{font-size:19px;font-weight:600;margin-bottom:8px}
 .fcard p{color:var(--muted);font-size:14.5px}
 
@@ -176,8 +176,8 @@ footer{border-top:1px solid var(--line2);padding:48px 0 40px;margin-top:90px;col
     <div class="h2 rv">Від справи — до вердикту</div>
     <p class="sub rv">Три кроки. Прозоро, по-юридичному: спершу матеріали, потім докази, тоді — рішення.</p>
     <div class="steps">
-      <div class="step rv"><div class="n">КРОК 01</div><div class="ic">⚖</div><h3>Справа</h3><p>Обираєш актив — відкриваєш «справу». Графік, стакан, ціни в реальному часі під рукою.</p></div>
-      <div class="step rv"><div class="n">КРОК 02</div><div class="ic">🔍</div><h3>Докази</h3><p>12 індикаторів + AI збирають докази: тренд, обʼєм, книга ордерів, новини, патерни.</p></div>
+      <div class="step rv"><div class="n">КРОК 01</div><div class="ic">¶</div><h3>Справа</h3><p>Обираєш актив — відкриваєш «справу». Графік, стакан, ціни в реальному часі під рукою.</p></div>
+      <div class="step rv"><div class="n">КРОК 02</div><div class="ic">‡</div><h3>Докази</h3><p>12 індикаторів + AI збирають докази: тренд, обʼєм, книга ордерів, новини, патерни.</p></div>
       <div class="step rv"><div class="n">КРОК 03</div><div class="ic">§</div><h3>Вердикт</h3><p>Чіткий висновок: лонг, шорт чи чекати — з рівнями входу, SL/TP і силою сигналу.</p></div>
     </div>
   </div>
@@ -195,6 +195,7 @@ footer{border-top:1px solid var(--line2);padding:48px 0 40px;margin-top:90px;col
       <div class="stat"><div class="v" id="s-open">—</div><div class="l">Відкритих зараз</div></div>
     </div>
     <div class="live rv"><span class="dot"></span>дані оновлюються з бази бота</div>
+    <div class="cta rv" style="justify-content:center;margin-top:28px"><a class="btn solid" href="bot.html">Провалитись у журнал бота <span>→</span></a></div>
   </div>
 </section>
 
